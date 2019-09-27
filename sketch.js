@@ -1,7 +1,48 @@
-var x = Math.floor(Math.random() * 3);
+//Defines all the variables
+
+//var xc = Math.floor(Math.random() * 800);
+//var yc = Math.floor(Math.random() * 800);
+var sc = Math.floor(Math.random() * 100);
+if (sc < 20) {
+  var sc = Math.floor(Math.random() * 100);
+}
+if (sc < 20) {
+  var sc = Math.floor(Math.random() * 100);
+}
+if (sc < 20) {
+  var sc = Math.floor(Math.random() * 100);
+}
+if (sc < 20) {
+  var sc = Math.floor(Math.random() * 100);
+}
+if (sc < 20) {
+  var sc = Math.floor(Math.random() * 100);
+}
+var radius = Math.floor(Math.random()* 300);
+if (radius < 50) {
+  var radius = Math.floor(Math.random()* 300);
+}
+if (radius < 50) {
+  var radius = Math.floor(Math.random()* 300);
+}
+if (radius < 50) {
+  var radius = Math.floor(Math.random()* 300);
+}
+if (radius < 50) {
+  var radius = Math.floor(Math.random()* 300);
+}
+if (radius < 50) {
+  var radius = Math.floor(Math.random()* 300);
+}
+
+var xcurrent = 400
+var ycurrent = 400
 var r
 var g
 var b
+
+//Wierd stuff that generates bright colors instead of darker ones.
+
 var rgbselector = Math.floor(Math.random() * 3);
 if (rgbselector == 0) {
   g = Math.floor(Math.random() * 255);
@@ -18,33 +59,26 @@ else {
   g = Math.floor(Math.random() * 255);
   b = g
 }
-var xc = Math.floor(Math.random() * 800);
-var yc = Math.floor(Math.random() * 800);
-var sc = Math.floor(Math.random() * 200);
+
+var angle = 0;
+//Setup
 
 function setup() {
   createCanvas(800, 800);
+
 }
+
+//Draw
 
 function draw() {
   background(220);
+  angleMode(DEGREES);
+  xcurrent = 400 + Math.sin(angle) * radius;
+  ycurrent = 400 + Math.cos(angle) * radius;
+  angle = angle + 0.015
   var c
   c = color(r, g, b);
-  text(x, 400, 400);
   fill(c);
-  noStroke();
-  circle(xc, yc, sc);
+  //noStroke();
+  circle(xcurrent, ycurrent, sc);
 }
-
-//if (x == 0.0) {
-//  c = color(255, 0, 0);
-//}
-//else if (x == 1.0) {
-//  c = color(0, 255, 0);
-//}
-//else {
-//  c = color(0, 0, 255);
-//}
-//var r = Math.floor(Math.random() * 255);
-//var g = Math.floor(Math.random() * 255);
-//var b = Math.floor(Math.random() * 255);

@@ -123,7 +123,7 @@ function draw() {
       for(var x = Math.floor(xcurrent - circlesize); x < xcurrent + circlesize; x++) {
         if(dist(xcurrent, ycurrent, x, y) < circlesize) {
           var index = (x + y * width)*4;
-          pixels[index+0] = noise((x - xcurrent + offset + (speed * 3))/14 + 50, (y - ycurrent)/14 + 100) * 255;
+          pixels[index+0] = noise((x - xcurrent + offset + (speed * 3))/14 + 50, (y - ycurrent)/14 + 100) * 350;
           pixels[index+1] = c1;
           pixels[index+2] = c2;
           pixels[index+3] = c3;

@@ -42,14 +42,14 @@ function drawinfo(temperature, resources, life) {
 
 function setup() {
 
-//Basic variable generation 
+//Basic variable generation
 
-  createCanvas(800, 800);
+  createCanvas(1920, 898);
   radius = random(175, 300);
   circlesize = random(30, 70);
   speed = random(0.005, 0.020);
-  xcurrent = 400;
-  ycurrent = 400;
+  xcurrent = 955;
+  ycurrent = 445;
   offset = 0.1;
   angle = 0;
   temphurt = 0;
@@ -101,18 +101,18 @@ function draw() {
 
   let c = color(255,255,0);
   fill(c);
-  circle(400, 400, 50);
+  circle(955, 445, 50);
 
 //Orbit-Path
 
   noFill();
   stroke(255);
-  circle(400, 400, radius*2);
+  circle(955, 455, radius*2);
 
 //Changes Between Frames
 
-  xcurrent = 400 + Math.sin(angle) * radius;
-  ycurrent = 400 + Math.cos(angle) * radius;
+  xcurrent = 955 + Math.sin(angle) * radius;
+  ycurrent = 455 + Math.cos(angle) * radius;
   angle = angle + speed;
 
 //Perlin Noise Generation

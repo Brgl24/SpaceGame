@@ -25,17 +25,23 @@ var colors
 
 function drawinfo(temperature, resources, life) {
   text("temperature = " + Math.floor(temperature), 10, 10);
+    strokeWeight(4);
     stroke(255, 0, 0);
     line(0, 16, temperature, 16);
     stroke(255, 255, 255);
+    strokeWeight(1);
   text("resources = " + Math.floor(resources), 10, 30);
+    strokeWeight(4);
     stroke(135, 206, 235);
     line(0, 36, resources, 36);
     stroke(255, 255, 255);
+    strokeWeight(1);
   text("life = " + Math.floor(life), 10, 50);
+    strokeWeight(4);
     stroke(0, 255, 0);
     line(0, 56, life, 56);
     stroke(255, 255, 255);
+    strokeWeight(1);
 }
 
 //Setup.
@@ -44,12 +50,12 @@ function setup() {
 
 //Basic variable generation
 
-  createCanvas(1920, 898);
+  createCanvas(windowWidth, windowHeight);
   radius = random(175, 300);
   circlesize = random(30, 70);
   speed = random(0.005, 0.020);
-  xcurrent = 955;
-  ycurrent = 445;
+  xcurrent = windowWidth/2;
+  ycurrent = windowHeight/2;
   offset = 0.1;
   angle = 0;
   temphurt = 0;
@@ -101,18 +107,20 @@ function draw() {
 
   let c = color(255,255,0);
   fill(c);
-  circle(955, 445, 50);
+  circle(windowWidth/2, windowHeight/2, 50);
 
 //Orbit-Path
 
   noFill();
   stroke(255);
-  circle(955, 455, radius*2);
+  strokeWeight(3);
+  circle(windowWidth/2, windowHeight/2, radius*2);
+  strokeWeight(1);
 
 //Changes Between Frames
 
-  xcurrent = 955 + Math.sin(angle) * radius;
-  ycurrent = 455 + Math.cos(angle) * radius;
+  xcurrent = windowWidth/2 + Math.sin(angle) * radius;
+  ycurrent = windowHeight/2 + Math.cos(angle) * radius;
   angle = angle + speed;
 
 //Perlin Noise Generation

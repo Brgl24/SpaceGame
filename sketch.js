@@ -21,10 +21,29 @@ var life
 var resources
 var temperature
 var temphurt
+var colors
+
+function drawinfo(temperature, resources, life) {
+  text("temperature = " + Math.floor(temperature), 10, 10);
+  stroke(255, 0, 0);
+  line(0, 16, temperature, 16);
+  stroke(255, 255, 255);
+  text("resources = " + Math.floor(resources), 10, 30);
+  stroke(135, 206, 235);
+  line(0, 36, resources, 36);
+  stroke(255, 255, 255);
+  text("life = " + Math.floor(life), 10, 50);
+  stroke(0, 255, 0);
+  line(0, 56, life, 56);
+  stroke(255, 255, 255);
+}
 
 //Setup.
 
 function setup() {
+
+//Basic variable generation 
+
   createCanvas(800, 800);
   radius = random(175, 300);
   circlesize = random(30, 70);
@@ -33,54 +52,71 @@ function setup() {
   ycurrent = 400;
   offset = 0.1;
   angle = 0;
+  temphurt = 0;
+
+//Color and Info generation
+
   c1 = random(50, 200);
   c2 = random(50, 200);
   c3 = random(50, 200);
   // c1 = green, c2 = blue, c3 = red
+  temperature = c3 - (c2/2)
   if (temperature < 50) {
     temphurt = 40
   }
   if (temperature > 100) {
     temphurt = 40
   }
-  temperature = c3 - (c2/2)
-  life = c1 - temphurt
+  life = c1/2 - temphurt
   resources = ((c3/1.5) + c1) - c2
-//   rgbselector = random(0, 3);
-//   if (rgbselector == 0) {
-//     g = random(75, 255);
-//     r = random(75, 255);
-//     b = 255;
-//   }
-//   else if (rgbselector == 1) {
-//     r = random(75, 255);
-//     g = 255;
-//     b = random(75, 255);
-//   }
-//   else {
-//     r = 255;
-//     g = 100;
-//     b = 100;
-//   }
+
+  if (temperature < 0) {
+    life = 0
+  }
+  if (temperature > 100) {
+    life = 0
+  }
+  if (resources < 0) {
+    resources = (random(15,30))
+  }
+  if (life < 0) {
+    life = 0
+  }
 }
 
 //Draw.
 
 function draw() {
+
+//Setup
+
   background(0);
   angleMode(DEGREES);
-  text("temperature = " + temperature, 10, 10);
-  text("resources = " + resources, 10, 20);
-  text("life = " + life, 10, 30);
+
+//Drawing infopanel
+
+  drawinfo(temperature, resources, life)
+
+//Sun
+
   let c = color(255,255,0);
   fill(c);
   circle(400, 400, 50);
+
+//Orbit-Path
+
   noFill();
   stroke(255);
   circle(400, 400, radius*2);
+
+//Changes Between Frames
+
   xcurrent = 400 + Math.sin(angle) * radius;
   ycurrent = 400 + Math.cos(angle) * radius;
   angle = angle + speed;
+
+//Perlin Noise Generation
+
   loadPixels();
   offset = offset + 0.75;
     for(var y = Math.floor(ycurrent - circlesize); y < ycurrent + circlesize; y++) {
@@ -95,4 +131,7 @@ function draw() {
       }
     }
   updatePixels();
+
+//End
+
 }

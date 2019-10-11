@@ -25,17 +25,17 @@ var colors
 
 function drawinfo(temperature, resources, life) {
   text("temperature = " + Math.floor(temperature), 10, 10);
-  stroke(255, 0, 0);
-  line(0, 16, temperature, 16);
-  stroke(255, 255, 255);
+    stroke(255, 0, 0);
+    line(0, 16, temperature, 16);
+    stroke(255, 255, 255);
   text("resources = " + Math.floor(resources), 10, 30);
-  stroke(135, 206, 235);
-  line(0, 36, resources, 36);
-  stroke(255, 255, 255);
+    stroke(135, 206, 235);
+    line(0, 36, resources, 36);
+    stroke(255, 255, 255);
   text("life = " + Math.floor(life), 10, 50);
-  stroke(0, 255, 0);
-  line(0, 56, life, 56);
-  stroke(255, 255, 255);
+    stroke(0, 255, 0);
+    line(0, 56, life, 56);
+    stroke(255, 255, 255);
 }
 
 //Setup.

@@ -1,145 +1,78 @@
-//Defines all the variables.
-
-var circlesize;
-var radius;
-var speed;
-var xcurrent;
-var ycurrent;
-var angle;
-var r;
-var g;
-var b;
-var x;
-var y;
-var offset;
-var rotationbalancer;
-var rgbselector;
-var c1;
-var c2;
-var c3;
-var life
-var resources
-var temperature
-var temphurt
-var colors
-
-function drawinfo(temperature, resources, life) {
-  text("temperature = " + Math.floor(temperature), 10, 10);
-    strokeWeight(4);
-    stroke(255, 0, 0);
-    line(0, 16, temperature, 16);
-    stroke(255, 255, 255);
-    strokeWeight(1);
-  text("resources = " + Math.floor(resources), 10, 30);
-    strokeWeight(4);
-    stroke(135, 206, 235);
-    line(0, 36, resources, 36);
-    stroke(255, 255, 255);
-    strokeWeight(1);
-  text("life = " + Math.floor(life), 10, 50);
-    strokeWeight(4);
-    stroke(0, 255, 0);
-    line(0, 56, life, 56);
-    stroke(255, 255, 255);
-    strokeWeight(1);
-}
-
-//Setup.
+var planetsize
+var orbitdistance
+var starsx = [];
+var starsy = [];
+var noiseoff = 0;
+var angle = 0;
+var speed = 0.01;
+var centery;
+var centerx;
 
 function setup() {
 
-//Basic variable generation
-
+  //Window-sized canvas
   createCanvas(windowWidth, windowHeight);
-  radius = random(175, 300);
-  circlesize = random(30, 70);
-  speed = random(0.005, 0.020);
-  xcurrent = windowWidth/2;
-  ycurrent = windowHeight/2;
-  offset = 0.1;
-  angle = 0;
-  temphurt = 0;
 
-//Color and Info generation
+  //Makes the sliders for planetsize, orbitdistance, etc.
+  slider1 = createSlider(1, 100, 100); slider1.position(10, 10); slider1.style('width', '80px');
+  slider2 = createSlider(100, 250, 100); slider2.position(10, 60); slider2.style('width', '80px');
 
-  c1 = random(50, 200);
-  c2 = random(50, 200);
-  c3 = random(50, 200);
-  // c1 = green, c2 = blue, c3 = red
-  temperature = c3 - (c2/2)
-  if (temperature < 50) {
-    temphurt = 40
-  }
-  if (temperature > 100) {
-    temphurt = 40
-  }
-  life = c1/2 - temphurt
-  resources = ((c3/1.5) + c1) - c2
-
-  if (temperature < 0) {
-    life = 0
-  }
-  if (temperature > 100) {
-    life = 0
-  }
-  if (resources < 0) {
-    resources = (random(15,30))
-  }
-  if (life < 0) {
-    life = 0
+  //Creates array for stars in BG
+  for(i = 1; i < 100; i++) {
+    starsx[i] = random(0, windowWidth)
+    starsy[i] = random(0, windowHeight)
   }
 }
 
-//Draw.
-
 function draw() {
 
-//Setup
-
+  //Black BG
   background(0);
-  angleMode(DEGREES);
 
-//Drawing infopanel
+  //Used as origin to make screen more like a conventional coordinate system
+  centery = windowHeight/2
+  centerx = windowWidth/2 
 
-  drawinfo(temperature, resources, life)
+  //Miniature Sun
+  fill(255, 255, 0)
+  circle(centerx, centery, 20)
+  fill(255, 255, 255);
 
-//Sun
+  //Draw the stars, random(2, 3) is for the twinkly effect
+  for(i = 1; i < 100; i++) {
+    let sx = starsx[i]
+    let sy = starsy[i]
+    circle(sx, sy, random(2, 3))
+  }
 
-  let c = color(255,255,0);
-  fill(c);
-  circle(windowWidth/2, windowHeight/2, 50);
+  //Planet position
+  xcurrent = centerx + Math.sin(angle) * orbitdistance;
+  ycurrent = centery + Math.cos(angle) * orbitdistance;
 
-//Orbit-Path
+  //Planet position changing
+  angle += speed
+  if(angle == 360) {
+    angle = 0
+  }
 
-  noFill();
-  stroke(255);
-  strokeWeight(3);
-  circle(windowWidth/2, windowHeight/2, radius*2);
-  strokeWeight(1);
+  //Slider and Text
+  planetsize = slider1.value();
+  orbitdistance = slider2.value();
+  fill(255, 255, 255)
+  text("Planet Size: " +  planetsize, 10, 50)
+  text("Orbit Distance: " +  orbitdistance, 10, 100)
 
-//Changes Between Frames
-
-  xcurrent = windowWidth/2 + Math.sin(angle) * radius;
-  ycurrent = windowHeight/2 + Math.cos(angle) * radius;
-  angle = angle + speed;
-
-//Perlin Noise Generation
-
-  loadPixels();
-  offset = offset + 0.75;
-    for(var y = Math.floor(ycurrent - circlesize); y < ycurrent + circlesize; y++) {
-      for(var x = Math.floor(xcurrent - circlesize); x < xcurrent + circlesize; x++) {
-        if(dist(xcurrent, ycurrent, x, y) < circlesize) {
-          var index = (x + y * width)*4;
-          pixels[index+0] = noise((x - xcurrent + offset + (speed * 3))/14 + 50, (y - ycurrent)/14 + 100) * 350;
-          pixels[index+1] = c1;
-          pixels[index+2] = c2;
-          pixels[index+3] = c3;
-        }
+  //Perlin Noise Generation
+  for (var x = 0; x < width; x+=1) {
+    for (var y = 0; y < height; y+=1) {
+      if(sqrt(((xcurrent - x)*(xcurrent - x))+((ycurrent - y)*(ycurrent - y))) < (planetsize/2)) {
+        var c = 255 * noise(0.02 * x, 0.02 * y);
+        var b = c
+        var g = 255 - b
+        fill(0, g, b);
+        noStroke();
+        rect(x, y, 2, 2);
       }
-    }
-  updatePixels();
-
-//End
-
+    }		
+  }
 }
